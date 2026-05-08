@@ -37,15 +37,6 @@ def home():
 @sugarcane_blueprint.route("/cdn/master")
 def cdn_master():
     cached_master, ttl = r_get(r1, MASTER_KEY)
-    if ttl is not False:
-        return json_response(
-            cached_master,
-            is_json=True,
-            headers={
-                "X-Cache": "HIT",
-                "Etag": etag_master(cached_master["updated_on"]),
-            },
-        )
 
     # Presume that the master is not cached
     master_in_file = open(os.path.join(CONTENT_ROOT, "master.json"))
